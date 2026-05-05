@@ -1,23 +1,46 @@
-var jobs = [];
+const jobs = [];
 
-function addJob() {
-    var t = document.getElementById("title").value;
-    var c = document.getElementById("company").value;
+function getInputValues() {
+    const titleInput = document.getElementById("title");
+    const companyInput = document.getElementById("company");
 
-    if(t == "" || c == "") {
-        alert("Enter all fields");
-    } else {
-        var job = {title: t, company: c};
-        jobs.push(job);
-        show();
-    }
+    return {
+        title: titleInput.value.trim(),
+        company: companyInput.value.trim()
+    };
 }
 
-function show() {
-    var list = document.getElementById("jobList");
+function clearInputs() {
+    document.getElementById("title").value = "";
+    document.getElementById("company").value = "";
+}
+
+function createJobItem(job) {
+    const li = document.createElement("li");
+    li.textContent = `${job.title} - ${job.company}`;
+    return li;
+}
+
+function renderJobs() {
+    const list = document.getElementById("jobList");
     list.innerHTML = "";
 
-    for(var i=0;i<jobs.length;i++) {
-        list.innerHTML += "<li>" + jobs[i].title + " - " + jobs[i].company + "</li>";
+    jobs.forEach(job => {
+        list.appendChild(createJobItem(job));
+    });
+}
+
+function addJob() {
+    const { title, company } = getInputValues();
+
+    if (!title || !company) {
+        alert("Please enter all fields");
+        return;
     }
+
+    const job = { title, company };
+    jobs.push(job);
+
+    renderJobs();
+    clearInputs();
 }
