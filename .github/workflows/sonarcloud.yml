@@ -1,0 +1,27 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          args: >
+            -Dsonar.organization=nethra-harshini006
+            -Dsonar.projectKey=Nethra-Harshini006_job-portal-quality
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
